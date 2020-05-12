@@ -1,0 +1,27 @@
+{
+  "name": "conways-checkboxes",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "parcel src/index.html",
+    "build": "parcel build src/index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shwilliam/conways-checkboxes.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/shwilliam/conways-checkboxes/issues"
+  },
+  "homepage": "https://github.com/shwilliam/conways-checkboxes#readme",
+  "dependencies": {
+    "parcel-bundler": "^1.12.4",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-plugin-react": "^7.19.0"
+  }
+}
