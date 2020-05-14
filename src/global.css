@@ -1,4 +1,41 @@
-html, body{
-  font-family: sans-serif;
+/* reset */
+html,
+body {
+  line-height: 1.25;
   height: 100%;
+  margin: 0;
+}
+
+h1 {
+  font-family: 'Times New Roman', Times, serif;
+  font-weight: normal;
+}
+
+/* global */
+#root {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  margin: 0 auto 20px auto;
+}
+
+.header__title {
+  font-size: 1.85rem;
+  text-align: center;
+  padding: 20px 0;
+}
+
+.main {
+  flex-basis: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 5%;
+}
+
+.cell-grid__row {
+  white-space: nowrap;
 }
