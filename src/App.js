@@ -33,9 +33,12 @@ const GameOfLife = ({cols, rows}) => {
   }
 
   const startSimulation = _ => setIsRunning(true)
-  const resetSimulation = _ => {
+  const stopSimulation = _ => {
     setIsRunning(false)
     stepRef.current = undefined
+  }
+  const resetSimulation = _ => {
+    stopSimulation()
     setCells(generateCells(cols, rows))
   }
 
@@ -85,11 +88,17 @@ const GameOfLife = ({cols, rows}) => {
   }, [cells])
 
   return (
-    <section>
+    <section className="cell-grid">
+      <button onClick={isRunning ? stopSimulation : startSimulation}>
+        {isRunning ? 'Stop' : 'Simulate'}
+      </button>
+      <button onClick={resetSimulation}>Reset</button>
+
       {cells.map((row, rowIdx) => (
-        <div key={rowIdx}>
+        <div key={rowIdx} className="cell-grid__row">
           {row.map((alive, columnIdx) => (
             <Cell
+              className="cell-grid__cell"
               key={`${rowIdx}${columnIdx}`}
               alive={alive}
               path={[rowIdx, columnIdx]}
@@ -98,12 +107,6 @@ const GameOfLife = ({cols, rows}) => {
           ))}
         </div>
       ))}
-
-      {isRunning ? (
-        <button onClick={resetSimulation}>Reset</button>
-      ) : (
-        <button onClick={startSimulation}>Simulate</button>
-      )}
     </section>
   )
 }
@@ -117,9 +120,12 @@ const Cell = ({alive, path, onChange}) => {
 export const App = () => (
   <>
     <header className="header">
-      <h1>Conway's Checkboxes</h1>
+      <h1 className="header__title">Conway's Checkboxes</h1>
 
-      <blockquote cite="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life">
+      <blockquote
+        className="header__desc"
+        cite="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life"
+      >
         <ul>
           <li>Any live cell with two or three live neighbours survives.</li>
           <li>Any dead cell with three live neighbours becomes a live cell.</li>
