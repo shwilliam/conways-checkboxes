@@ -6,8 +6,27 @@
     <title>Conway's Checkboxes</title>
   </head>
   <body>
+    <header class="header">
+      <h1 class="header__title">Conway's Checkboxes</h1>
+
+      <blockquote
+        class="header__desc"
+        cite="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life"
+      >
+        <ul>
+          <li>Any live cell with two or three live neighbours survives.</li>
+          <li>Any dead cell with three live neighbours becomes a live cell.</li>
+          <li>All other live cells die in the next generation.</li>
+          <li>Similarly, all other dead cells stay dead.</li>
+        </ul>
+        <footer>— Wikipedia, <cite>Conway's Game of Life</cite></footer>
+      </blockquote>
+    </header>
+
     <noscript>plz enable javascript &lt;3</noscript>
-    <div id="root"></div>
+    <main class="main">
+      <div id="root"></div>
+    </main>
 
     <script src="./index.js"></script>
   </body>
