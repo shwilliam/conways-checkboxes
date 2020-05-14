@@ -4,8 +4,9 @@ import {generateCells, neighborCoords} from '../utils'
 
 const STEP_DURATION = 400 // ms
 
-export const GameOfLife = ({cols, rows}) => {
-  const [cells, setCells] = useState(generateCells(cols, rows))
+export const GameOfLife = () => {
+  const [boardSize, setBoardSize] = useState([10, 10])
+  const [cells, setCells] = useState(generateCells(...boardSize))
   const cellsRef = useRef(cells)
   const stepRef = useRef()
 
@@ -27,7 +28,7 @@ export const GameOfLife = ({cols, rows}) => {
   }
   const resetSimulation = _ => {
     stopSimulation()
-    setCells(generateCells(cols, rows))
+    setCells(generateCells(...boardSize))
   }
 
   const step = () => {
@@ -42,9 +43,9 @@ export const GameOfLife = ({cols, rows}) => {
 
               if (
                 neighborColIdx < 0 ||
-                neighborColIdx >= cols ||
+                neighborColIdx >= boardSize[0] ||
                 neighborRowIdx < 0 ||
-                neighborRowIdx >= rows
+                neighborRowIdx >= boardSize[1]
               )
                 return total
 
@@ -65,6 +66,16 @@ export const GameOfLife = ({cols, rows}) => {
     }, STEP_DURATION)
   }
 
+  const handleColsInputChange = e => {
+    const cols = Number(e.target.value)
+    setBoardSize(([_, rows]) => [cols, rows])
+  }
+
+  const handleRowsInputChange = e => {
+    const rows = Number(e.target.value)
+    setBoardSize(([cols]) => [cols, rows])
+  }
+
   useEffect(() => {
     if (isRunning && !stepRef?.current) {
       step()
@@ -75,12 +86,45 @@ export const GameOfLife = ({cols, rows}) => {
     cellsRef.current = cells
   }, [cells])
 
+  useEffect(() => {
+    setCells(generateCells(...boardSize))
+    resetSimulation()
+  }, [boardSize])
+
   return (
     <section className="cell-grid">
       <button onClick={isRunning ? stopSimulation : startSimulation}>
         {isRunning ? 'Stop' : 'Simulate'}
       </button>
+
       <button onClick={resetSimulation}>Reset</button>
+
+      <label htmlFor="cols-input" className="visibly-hidden">
+        Columns
+      </label>
+      <input
+        id="cols-input"
+        name="cols-input"
+        className="input"
+        value={boardSize[0]}
+        onChange={handleColsInputChange}
+        type="number"
+        min="5"
+        step="5"
+      />
+      <label htmlFor="rows-input" className="visibly-hidden">
+        Rows
+      </label>
+      <input
+        id="rows-input"
+        name="rows-input"
+        className="input"
+        value={boardSize[1]}
+        onChange={handleRowsInputChange}
+        type="number"
+        min="5"
+        step="5"
+      />
 
       {cells.map((row, rowIdx) => (
         <div key={rowIdx} className="cell-grid__row">
