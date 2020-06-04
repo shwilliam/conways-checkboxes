@@ -31005,7 +31005,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 var STEP_DURATION = 400; // ms
 
 var GameOfLife = function GameOfLife() {
-  var _useState = (0, _react.useState)(window.innerWidth > 700 ? [40, 40] : window.innerWidth > 450 ? [30, 30] : [25, 25]),
+  var _useState = (0, _react.useState)(window.innerWidth > 700 ? [40, 25] : window.innerWidth > 450 ? [30, 25] : [25, 25]),
       _useState2 = _slicedToArray(_useState, 2),
       boardSize = _useState2[0],
       setBoardSize = _useState2[1];
@@ -31166,8 +31166,7 @@ var GameOfLife = function GameOfLife() {
       return /*#__PURE__*/_react.default.createElement("div", {
         style: style
       }, /*#__PURE__*/_react.default.createElement(_index.Cell, {
-        key: "".concat(rowIndex).concat(columnIndex) // TODO: refactor to uncontrolled component
-        ,
+        key: "".concat(rowIndex).concat(columnIndex),
         alive: cells[rowIndex] && cells[rowIndex][columnIndex] ? cells[rowIndex][columnIndex] : false,
         path: [rowIndex, columnIndex],
         onChange: onCellActivate
@@ -31343,7 +31342,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63049" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64718" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
