@@ -9,9 +9,9 @@ const STEP_DURATION = 400 // ms
 export const GameOfLife = () => {
   const [boardSize, setBoardSize] = useState(
     window.innerWidth > 700
-      ? [40, 40]
+      ? [40, 25]
       : window.innerWidth > 450
-      ? [30, 30]
+      ? [30, 25]
       : [25, 25],
   )
   const [cells, setCells] = useState(generateCells(...boardSize))
