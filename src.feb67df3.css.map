@@ -1,0 +1,1 @@
+{"version":3,"sources":["global.css"],"names":[],"mappings":"AAAA,UACE,sBAAuB,CACvB,WACF","file":"src.feb67df3.css","sourceRoot":"../src","sourcesContent":["html, body{\n  font-family: sans-serif;\n  height: 100%;\n}\n"]}
