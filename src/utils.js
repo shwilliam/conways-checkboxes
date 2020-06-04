@@ -11,3 +11,5 @@ export const neighborCoords = [
 
 export const generateCells = (cols, rows) =>
   Array.from({length: rows}, _ => Array.from({length: cols}, _ => false))
+
+export const preventDefault = e => e.preventDefault()

@@ -1,11 +1,19 @@
-import React, {useEffect, useRef, useState} from 'react'
+import React, {useEffect, useLayoutEffect, useRef, useState} from 'react'
+import {FixedSizeGrid} from 'react-window'
+import AutoSizer from 'react-virtualized-auto-sizer'
 import {Cell} from './index'
-import {generateCells, neighborCoords} from '../utils'
+import {generateCells, neighborCoords, preventDefault} from '../utils'
 
 const STEP_DURATION = 400 // ms
 
 export const GameOfLife = () => {
-  const [boardSize, setBoardSize] = useState([10, 10])
+  const [boardSize, setBoardSize] = useState(
+    window.innerWidth > 700
+      ? [40, 40]
+      : window.innerWidth > 450
+      ? [30, 30]
+      : [25, 25],
+  )
   const [cells, setCells] = useState(generateCells(...boardSize))
   const cellsRef = useRef(cells)
   const stepRef = useRef()
@@ -86,59 +94,81 @@ export const GameOfLife = () => {
     cellsRef.current = cells
   }, [cells])
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     setCells(generateCells(...boardSize))
     resetSimulation()
   }, [boardSize])
 
   return (
-    <section className="cell-grid">
-      <button onClick={isRunning ? stopSimulation : startSimulation}>
-        {isRunning ? 'Stop' : 'Simulate'}
-      </button>
+    <section className="cell-grid__container">
+      <header className="cell-grid__header">
+        <form onSubmit={preventDefault} className="cell-grid__actions">
+          <button onClick={isRunning ? stopSimulation : startSimulation}>
+            {isRunning ? 'Stop' : 'Simulate'}
+          </button>
 
-      <button onClick={resetSimulation}>Reset</button>
+          <button onClick={resetSimulation}>Reset</button>
 
-      <label htmlFor="cols-input" className="visibly-hidden">
-        Columns
-      </label>
-      <input
-        id="cols-input"
-        name="cols-input"
-        className="input"
-        value={boardSize[0]}
-        onChange={handleColsInputChange}
-        type="number"
-        min="5"
-        step="5"
-      />
-      <label htmlFor="rows-input" className="visibly-hidden">
-        Rows
-      </label>
-      <input
-        id="rows-input"
-        name="rows-input"
-        className="input"
-        value={boardSize[1]}
-        onChange={handleRowsInputChange}
-        type="number"
-        min="5"
-        step="5"
-      />
+          <label htmlFor="cols-input" className="visibly-hidden">
+            Columns
+          </label>
+          <input
+            id="cols-input"
+            name="cols-input"
+            className="input"
+            value={boardSize[0]}
+            onChange={handleColsInputChange}
+            type="number"
+            min="5"
+            step="5"
+          />
+          <label htmlFor="rows-input" className="visibly-hidden">
+            Rows
+          </label>
+          <input
+            id="rows-input"
+            name="rows-input"
+            className="input"
+            value={boardSize[1]}
+            onChange={handleRowsInputChange}
+            type="number"
+            min="5"
+            step="5"
+          />
+        </form>
 
-      {cells.map((row, rowIdx) => (
-        <div key={rowIdx} className="cell-grid__row">
-          {row.map((alive, columnIdx) => (
-            <Cell
-              className="cell-grid__cell"
-              key={`${rowIdx}${columnIdx}`}
-              alive={alive}
-              path={[rowIdx, columnIdx]}
-              onChange={onCellActivate}
-            />
-          ))}
-        </div>
-      ))}
+        <p className="cell-grid__info">(scroll to see more)</p>
+      </header>
+
+      <AutoSizer>
+        {({height, width}) => (
+          <FixedSizeGrid
+            columnCount={boardSize[0]}
+            columnWidth={20}
+            height={height}
+            rowCount={boardSize[1]}
+            rowHeight={20}
+            width={width}
+            className="cell-grid"
+          >
+            {({columnIndex, rowIndex, style}) => (
+              <div style={style}>
+                <Cell
+                  key={`${rowIndex}${columnIndex}`}
+                  // TODO: refactor to uncontrolled component
+                  alive={
+                    cells[rowIndex] && cells[rowIndex][columnIndex]
+                      ? cells[rowIndex][columnIndex]
+                      : false
+                  }
+                  path={[rowIndex, columnIndex]}
+                  onChange={onCellActivate}
+                />
+              </div>
+            )}
+          </FixedSizeGrid>
+        )}
+      </AutoSizer>
     </section>
   )
 }
