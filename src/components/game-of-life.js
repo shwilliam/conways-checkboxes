@@ -155,7 +155,6 @@ export const GameOfLife = () => {
               <div style={style}>
                 <Cell
                   key={`${rowIndex}${columnIndex}`}
-                  // TODO: refactor to uncontrolled component
                   alive={
                     cells[rowIndex] && cells[rowIndex][columnIndex]
                       ? cells[rowIndex][columnIndex]
